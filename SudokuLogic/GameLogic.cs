@@ -20,6 +20,18 @@ namespace SudokuLogic
             GameBoard.SetBoardToStartPosition();
         }
 
+        public void MarkCell(int i_RowNum, int i_ColNum, int i_Value)
+        {
+            GameBoard.MarkCell(i_RowNum, i_ColNum, i_Value);
+            AddCollisions(i_RowNum, i_ColNum, i_Value);
+        }
+
+        public void ClearCell(int i_RowNum, int i_ColNum, int i_DeletedValue)
+        {
+            GameBoard.ClearCell(i_RowNum, i_ColNum);
+            DeleteCollisions(i_RowNum, i_ColNum, i_DeletedValue);
+        }
+
         public bool AddCollisions(int i_RowNum, int i_ColNum, int i_Value)
         {
             // Count collision of given cell in board with its neighbors from the same row/column/block
@@ -56,11 +68,13 @@ namespace SudokuLogic
                     {
                         GameBoard.CollisionBoard[i_RowNum, i] += 1;
                         GameBoard.CollisionBoard[i_RowNum, i_ColNum] += 1;
+                        GameBoard.CollisionCases += 2;
                     }
                     else //i_Action.Equals(eCollisionAction.Delete
                     {
                         GameBoard.CollisionBoard[i_RowNum, i] -= 1;
-                        GameBoard.CollisionBoard[i_RowNum, i_ColNum] -= 1;
+                        //GameBoard.CollisionBoard[i_RowNum, i_ColNum] -= 1;
+                        GameBoard.CollisionCases -= 2;
                     }
                     collisions = true;
                 }
@@ -80,11 +94,13 @@ namespace SudokuLogic
                     {
                         GameBoard.CollisionBoard[i, i_ColNum] += 1;
                         GameBoard.CollisionBoard[i_RowNum, i_ColNum] += 1;
+                        GameBoard.CollisionCases += 2;
                     }
                     else //i_Action.Equals(eCollisionAction.Delete
                     {
                         GameBoard.CollisionBoard[i, i_ColNum] -= 1;
-                        GameBoard.CollisionBoard[i_RowNum, i_ColNum] -= 1;
+                        //GameBoard.CollisionBoard[i_RowNum, i_ColNum] -= 1;
+                        GameBoard.CollisionCases -= 2;
                     }
                     collisions = true;
                 }
@@ -108,17 +124,26 @@ namespace SudokuLogic
                         {
                             GameBoard.CollisionBoard[i_RowStart + i, i_ColStart + j] += 1;
                             GameBoard.CollisionBoard[i_RowNum, i_ColNum] += 1;
+                            GameBoard.CollisionCases += 2;
                         }
                         else //i_Action.Equals(eCollisionAction.Delete
                         {
                             GameBoard.CollisionBoard[i_RowStart + i, i_ColStart + j] -= 1;
-                            GameBoard.CollisionBoard[i_RowNum, i_ColNum] -= 1;
+                            //GameBoard.CollisionBoard[i_RowNum, i_ColNum] -= 1;
+                            GameBoard.CollisionCases -= 2;
                         }
                         collisions = true;
                     }
                 }
             }
             return collisions;
+        }
+
+        public bool HasWon()
+        {
+            if (GameBoard.EmptyCells == 0 && GameBoard.CollisionCases == 0)
+                return true;
+            else return false;
         }
 
         private enum eCollisionAction

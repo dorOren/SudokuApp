@@ -14,11 +14,13 @@ namespace SudokuLogic
         public int BoardSideSize { get; }
         public int BlockSideSize { get; }
         public int EmptyCells { get; set; }
+        public int CollisionCases { get; set; }
 
         public Board()
         {
             BoardsSets = new DefaultBoards();
             EmptyCells = 81;
+            CollisionCases = 0;
             BoardSideSize = 9;
             BlockSideSize = 3;
             GameBoard = new int[BoardSideSize, BoardSideSize];
@@ -55,6 +57,13 @@ namespace SudokuLogic
             }
         }
 
+        public void ClearCell(int i_RowNum, int i_ColNum)
+        {
+            GameBoard[i_RowNum, i_ColNum] = 0;
+            CollisionBoard[i_RowNum, i_ColNum] = 0;
+            EmptyCells++;
+        }
+
         public void MarkCell(int i_RowNum, int i_ColNum, int i_Value)
         {
             // If the cell is empty, the value is valid and the move is llegal,
@@ -75,11 +84,5 @@ namespace SudokuLogic
             else return false;
         }
 
-        public bool IsBoardCompleted()
-        {
-            if (EmptyCells == 0)
-                return true;
-            else return false;
-        }
     }
 }

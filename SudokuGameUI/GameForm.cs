@@ -34,16 +34,23 @@ namespace SudokuUI
 
         private void board_Load(object sender, EventArgs e)
         {
+            startNewGame();
+        }
+
+        private void startNewGame()
+        {
             GameBoard.SetBoardToStartPosition();
-            for(int i=0;i< BoardSideSize; i++)
+            for (int i = 0; i < BoardSideSize; i++)
             {
-                for(int j=0;j< BoardSideSize; j++)
+                for (int j = 0; j < BoardSideSize; j++)
                 {
                     if (GameBoard.GameBoard[i, j] != 0)
                     {
                         m_TextBoxMatrix[i, j].Text = $"{GameBoard.GameBoard[i, j]}";
                         m_TextBoxMatrix[i, j].ReadOnly = true;
                     }
+                    else
+                        m_TextBoxMatrix[i, j].Text = "";
                 }
             }
         }
@@ -57,19 +64,18 @@ namespace SudokuUI
                 int rowNum;
                 (rowNum, colNum) = tagToIndexesHashFunction((int)(textBox.Tag));
                 bool isNumber = int.TryParse(textBox.Text, out int res);
-                if (isNumber && res!=0)
+                if (isNumber && res != 0)
                 {
-                    GameBoard.MarkCell(rowNum, colNum, res);
-                    Game.AddCollisions(rowNum, colNum, res);
+                    Game.MarkCell(rowNum, colNum, res);
                     textBox.Text = textBox.Text.Insert(0, " ");
+                    if (Game.HasWon())
+                        winForm();
                 }
                 else
                 {
                     if (m_BackPressed)
                     {
-                        GameBoard.GameBoard[rowNum, colNum] = 0;
-                        Game.DeleteCollisions(rowNum, colNum, m_DeletedValue);
-                        GameBoard.CollisionBoard[rowNum, colNum] = 0;
+                        Game.ClearCell(rowNum, colNum, m_DeletedValue);
                         m_BackPressed = false;
                     }
                     textBox.Clear();
@@ -118,9 +124,29 @@ namespace SudokuUI
             return (rowNum, colNum);
         }
 
-        private void handleCollisions()
+        private void winForm()
         {
+            DialogResult result;
+            string msg = $"You have successfully solved the Sudoku Puzzle!{Environment.NewLine}Would you like to play another round?";
+            string caption = $"Solved!";
+            result = MessageBox.Show(msg, caption, MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                enableAllTextBoxes();
+                startNewGame();
+            }
+            else
+            {
+                Application.Exit();
+            }
+        }
 
+        private void enableAllTextBoxes()
+        {
+            foreach(TextBox textBox in m_TextBoxMatrix)
+            {
+                textBox.ReadOnly = false;
+            }
         }
     }
 }
