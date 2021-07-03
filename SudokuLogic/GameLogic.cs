@@ -25,10 +25,11 @@ namespace SudokuLogic
             // Count collision of given cell in board with its neighbors from the same row/column/block
             // Number of collisions is stored in all cells affected from the new cell in GameBoard.CollisionBoard
             // Function returs true if any collision was found, else returns false
-            int blockSideSize =GameBoard.BlockSideSize;
-            return RowCollisions(i_RowNum, i_ColNum, i_Value, eCollisionAction.Add) ||
-                   ColCollisions(i_RowNum,i_ColNum, i_Value, eCollisionAction.Add) ||
-                   BlockCollisions(i_RowNum - i_RowNum % blockSideSize, i_ColNum - i_ColNum % blockSideSize, i_RowNum,i_ColNum, i_Value, eCollisionAction.Add);
+            int blockSideSize = GameBoard.BlockSideSize;
+            bool a = RowCollisions(i_RowNum, i_ColNum, i_Value, eCollisionAction.Add);
+            bool b = ColCollisions(i_RowNum, i_ColNum, i_Value, eCollisionAction.Add);
+            bool c = BlockCollisions(i_RowNum - i_RowNum % blockSideSize, i_ColNum - i_ColNum % blockSideSize, i_RowNum, i_ColNum, i_Value, eCollisionAction.Add);
+            return a || b || c;
         }
 
         public bool DeleteCollisions(int i_RowNum, int i_ColNum, int i_Value)
@@ -37,9 +38,10 @@ namespace SudokuLogic
             // The count decreases from each affected cell in GameBoard.CollisionBoard
             // Function returs true if a decrement action was done, else returns false
             int blockSideSize = GameBoard.BlockSideSize;
-            return RowCollisions(i_RowNum, i_ColNum, i_Value, eCollisionAction.Delete) ||
-                   ColCollisions(i_RowNum, i_ColNum, i_Value, eCollisionAction.Delete) ||
-                   BlockCollisions(i_RowNum - i_RowNum % blockSideSize, i_ColNum - i_ColNum % blockSideSize, i_RowNum, i_ColNum, i_Value, eCollisionAction.Delete);
+            bool a = RowCollisions(i_RowNum, i_ColNum, i_Value, eCollisionAction.Delete);
+            bool b = ColCollisions(i_RowNum, i_ColNum, i_Value, eCollisionAction.Delete);
+            bool c = BlockCollisions(i_RowNum - i_RowNum % blockSideSize, i_ColNum - i_ColNum % blockSideSize, i_RowNum, i_ColNum, i_Value, eCollisionAction.Delete);
+            return a || b || c;
         }
 
         private bool RowCollisions(int i_RowNum, int i_ColNum, int i_Value, eCollisionAction i_Action)

@@ -67,6 +67,7 @@ namespace SudokuUI
                 {
                     if (m_BackPressed)
                     {
+                        GameBoard.GameBoard[rowNum, colNum] = 0;
                         Game.DeleteCollisions(rowNum, colNum, m_DeletedValue);
                         GameBoard.CollisionBoard[rowNum, colNum] = 0;
                         m_BackPressed = false;
@@ -99,11 +100,14 @@ namespace SudokuUI
         }
 
         private void textBox_DeleteText(TextBox i_TextBox, KeyEventArgs i_KeyPressed)
-        {//TODO: FINISH THIS
-            m_BackPressed = true;
-            if (i_KeyPressed.KeyData == Keys.Back)
+        {
+            if (i_TextBox.Text != "")
             {
-                m_DeletedValue = int.Parse(i_TextBox.Text.Remove(0,1));
+                m_BackPressed = true;
+                if (i_KeyPressed.KeyData == Keys.Back)
+                {
+                    m_DeletedValue = int.Parse(i_TextBox.Text.Remove(0, 1));
+                }
             }
         }
 
