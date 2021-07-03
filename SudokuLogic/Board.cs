@@ -9,6 +9,7 @@ namespace SudokuLogic
     public class Board
     {
         public int[,] GameBoard { get; }
+        public int[,] CollisionBoard { get; }
         public DefaultBoards BoardsSets { get; }
         public int BoardSideSize { get; }
         public int BlockSideSize { get; }
@@ -21,6 +22,7 @@ namespace SudokuLogic
             BoardSideSize = 9;
             BlockSideSize = 3;
             GameBoard = new int[BoardSideSize, BoardSideSize];
+            CollisionBoard = new int[BoardSideSize, BoardSideSize];
         }
 
 
@@ -33,6 +35,7 @@ namespace SudokuLogic
                 for (int j = 0; j < BoardSideSize; j++)
                 {
                     GameBoard[i, j] = 0;
+                    CollisionBoard[i, j] = 0;
                 }
             }
         }
@@ -57,8 +60,7 @@ namespace SudokuLogic
             // If the cell is empty, the value is valid and the move is llegal,
             // Put requested value in cell
             if (IsEmpty(i_RowNum, i_ColNum) &&
-                1 <= i_Value && i_Value <= BoardSideSize &&
-                isValidMove(i_RowNum, i_ColNum, i_Value))
+                1 <= i_Value && i_Value <= BoardSideSize)
             {
                 GameBoard[i_RowNum, i_ColNum] = i_Value;
                 EmptyCells--;
@@ -71,45 +73,6 @@ namespace SudokuLogic
             if (GameBoard[i_RowNum, i_ColNum] == 0)
                 return true;
             else return false;
-        }
-
-        private bool isValidMove(int i_RowNum, int i_ColNum, int i_Value)
-        {
-            return checkIfRowValid(i_RowNum, i_Value) && checkIfColValid(i_ColNum, i_Value) &&
-                   checkIfBlockValid(i_RowNum - i_RowNum % BlockSideSize, i_ColNum - i_ColNum % BlockSideSize, i_Value);
-        }
-
-        private bool checkIfRowValid(int i_RowNum, int i_Value)
-        {
-            for(int i = 0; i< BoardSideSize; i++)
-            {
-                if (GameBoard[i_RowNum, i] == i_Value)
-                    return false;
-            }
-            return true;
-        }
-
-        private bool checkIfColValid(int i_ColNum, int i_Value)
-        {
-            for (int i = 0; i < BoardSideSize; i++)
-            {
-                if (GameBoard[i, i_ColNum] == i_Value)
-                    return false;
-            }
-            return true;
-        }
-
-        private bool checkIfBlockValid(int i_RowStart, int i_ColStart, int i_Value)
-        {
-            for(int i = 0; i < BlockSideSize; i++)
-            {
-                for(int j= 0; j < BlockSideSize; j++)
-                {
-                    if (GameBoard[i_RowStart + i, i_ColStart + j] == i_Value)
-                        return false;
-                }
-            }
-            return true;
         }
 
         public bool IsBoardCompleted()

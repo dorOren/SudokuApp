@@ -58,11 +58,13 @@ namespace SudokuUI
                     textBox.Size = new System.Drawing.Size(40, 40);
                     textBox.Font = new System.Drawing.Font(textBox.Font.FontFamily, 23);
                     textBox.TabIndex = 0;
-                    textBox.Tag = TextBoxNum++;
+                    textBox.Tag = TextBoxNum;
                     textBox.TabStop = false;
                     textBox.MaxLength = 1;
                     textBox.Click += new System.EventHandler(this.textBox_Click);
                     textBox.TextChanged+= new System.EventHandler(this.textBox_TextChanged);
+                    textBox.KeyDown+= new System.Windows.Forms.KeyEventHandler(this.textBox_KeyPressed);
+                    TextBoxNum++;
                     this.Controls.Add(textBox);
                 }
             }

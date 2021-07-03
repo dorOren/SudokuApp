@@ -41,9 +41,9 @@ namespace SudokuUI
             this.GenerateGameButton.Name = "GenerateGameButton";
             this.GenerateGameButton.Size = new System.Drawing.Size(378, 56);
             this.GenerateGameButton.TabIndex = 1;
+            this.GenerateGameButton.TabStop = false;
             this.GenerateGameButton.Text = "Generate Sudoku Board";
             this.GenerateGameButton.UseVisualStyleBackColor = true;
-            this.GenerateGameButton.TabStop = false;
             this.GenerateGameButton.Click += new System.EventHandler(this.generateGameButton_Click);
             // 
             // SudokuSolverButton
@@ -53,12 +53,12 @@ namespace SudokuUI
             this.SudokuSolverButton.Name = "SudokuSolverButton";
             this.SudokuSolverButton.Size = new System.Drawing.Size(378, 56);
             this.SudokuSolverButton.TabIndex = 1;
+            this.SudokuSolverButton.TabStop = false;
             this.SudokuSolverButton.Text = "Sudoku Solver";
             this.SudokuSolverButton.UseVisualStyleBackColor = true;
-            this.SudokuSolverButton.TabStop = false;
             this.SudokuSolverButton.Click += new System.EventHandler(this.SudokuSolverButton_Click);
             // 
-            // GameSetting
+            // GameSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -66,7 +66,7 @@ namespace SudokuUI
             this.Controls.Add(this.SudokuSolverButton);
             this.Controls.Add(this.GenerateGameButton);
             this.Controls.Add(this.label1);
-            this.Name = "GameSetting";
+            this.Name = "GameSettings";
             this.Text = "Sudoku Madness";
             this.ResumeLayout(false);
             this.PerformLayout();
