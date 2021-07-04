@@ -28,7 +28,7 @@ namespace SudokuLogic
         }
 
 
-        private void initializeGameBoard()
+        public void InitializeGameBoard()
         {
             // Initialize the board cells to empty state
             // A cell equals to 0 is considered empty, Sudoku game values goes from 1-9
@@ -46,7 +46,7 @@ namespace SudokuLogic
         {
             // Sets all cells to 0 (empty state),
             // Then takes a random game start set from "memory" -> and initiate starting cells with their values
-            initializeGameBoard();
+            InitializeGameBoard();
             int randomIndex = BoardsSets.rand.Next(0, BoardsSets.BoardSetting.Count());
             List<MemoryCell> RandomSet = BoardsSets.BoardSetting[randomIndex];
             foreach(MemoryCell cell in RandomSet)

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B0463D0E-C2CF-4D8E-921F-EBDEAA946ECC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SudokuGameUI</RootNamespace>
-    <AssemblyName>SudokuGameUI</AssemblyName>
+    <RootNamespace>SudokuUI</RootNamespace>
+    <AssemblyName>SudokuUI</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -53,6 +53,12 @@
       <DependentUpon>GameSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="SolverForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SolverForm.Designer.cs">
+      <DependentUpon>SolverForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

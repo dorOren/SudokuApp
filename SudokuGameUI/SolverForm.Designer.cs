@@ -2,10 +2,9 @@
 
 namespace SudokuUI
 {
-    public partial class GameForm
+    partial class SolverForm
     {
         private System.ComponentModel.IContainer components = null;
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -17,17 +16,33 @@ namespace SudokuUI
 
         #region Windows Form Designer generated code
 
-        private void InitializeComponent(int i_NumRows, int i_NumCols,int i_Height,int i_Width)
+        private void InitializeComponent(int i_NumRows, int i_NumCols, int i_Height, int i_Width)
         {
-            this.SuspendLayout();
+            this.SolveButton = new System.Windows.Forms.Button();
             // 
-            // GameForm
+            // SolveButton
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.SolveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.SolveButton.Location = new System.Drawing.Point(i_Width-155, i_Height/2-70);
+            this.SolveButton.Name = "SudokuSolverButton";
+            this.SolveButton.MinimumSize = new System.Drawing.Size(130, 130);
+            this.SolveButton.MaximumSize = new System.Drawing.Size(130, 130);
+            this.SolveButton.AutoSize = false;
+            this.SolveButton.TabIndex = 1;
+            this.SolveButton.TabStop = false;
+            this.SolveButton.Text = "SOLVE!";
+            this.SolveButton.UseVisualStyleBackColor = true;
+            this.SolveButton.Click += new System.EventHandler(this.solveButton_Click);
+            this.Controls.Add(this.SolveButton);
+            //
+            // SolverForm
+            //
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(i_Width, i_Height);
-            this.Name = "GameForm";
-            this.Text = "Sudoku";
+            this.Name = "SolverForm";
+            this.Text = "Sudoku Solver";
             this.ResumeLayout(false);
             this.Load += new System.EventHandler(this.board_Load);
             generateTextBoxMatrix(i_NumRows, i_NumCols, i_Height, i_Width);
@@ -46,42 +61,41 @@ namespace SudokuUI
                         generateHorizontalSeperator(i, j, i_Width);
 
                     if (((j == 3) || (j == 6)) &&
-                          j != 0  &&  i == 0)
+                          j != 0 && i == 0)
                         generateVerticalSeperator(i, j, i_Height);
 
                     m_TextBoxMatrix[i, j] = new TextBox();
                     TextBox textBox = m_TextBoxMatrix[i, j];
-                    textBox.Location = new System.Drawing.Point(j * 42 + 10+40, i * 42 + 10);
+                    textBox.Location = new System.Drawing.Point(j * 42 + 10 + 40, i * 42 + 10);
                     textBox.Name = "button";
                     textBox.AutoSize = false;
                     textBox.Size = new System.Drawing.Size(40, 40);
                     textBox.Font = new System.Drawing.Font(textBox.Font.FontFamily, 23);
-                    textBox.ForeColor = System.Drawing.Color.Maroon;
                     textBox.TabIndex = 0;
                     textBox.Tag = TextBoxNum;
                     textBox.TabStop = false;
                     textBox.MaxLength = 1;
                     textBox.Click += new System.EventHandler(this.textBox_Click);
-                    textBox.TextChanged+= new System.EventHandler(this.textBox_TextChanged);
-                    textBox.KeyDown+= new System.Windows.Forms.KeyEventHandler(this.textBox_KeyPressed);
+                    textBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+                    textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyPressed);
                     TextBoxNum++;
                     this.Controls.Add(textBox);
                 }
             }
         }
 
-        private void generateHorizontalSeperator(int i_NumRows, int i_NumCols,int i_Width)
+        private void generateHorizontalSeperator(int i_NumRows, int i_NumCols, int i_Width)
         {
             Label horizontalSeperator = new Label();
             horizontalSeperator.Text = "";
             horizontalSeperator.BackColor = System.Drawing.Color.DimGray;
-            horizontalSeperator.Size = new System.Drawing.Size(i_Width - 102, 1);
+            horizontalSeperator.Size = new System.Drawing.Size(i_Width - 232, 1);
             horizontalSeperator.Location = new System.Drawing.Point(i_NumCols * 42 + 10 + 40, i_NumRows * 42 + 51);
             this.Controls.Add(horizontalSeperator);
             Label horizontalSeperator2 = new Label();
             horizontalSeperator2.Text = "";
             horizontalSeperator2.BackColor = System.Drawing.Color.DimGray;
-            horizontalSeperator2.Size = new System.Drawing.Size(i_Width - 102, 1);
+            horizontalSeperator2.Size = new System.Drawing.Size(i_Width - 232, 1);
             horizontalSeperator2.Location = new System.Drawing.Point(i_NumCols * 42 + 10 + 40, i_NumRows * 42 + 48);
             this.Controls.Add(horizontalSeperator2);
         }
@@ -103,5 +117,7 @@ namespace SudokuUI
         }
 
         #endregion
+
+        private System.Windows.Forms.Button SolveButton;
     }
 }

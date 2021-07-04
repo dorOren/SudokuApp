@@ -41,8 +41,8 @@ namespace SudokuUI
 
         public void ShowSolverForm()
         {
-            //SolverForm solverForm = new SolverForm();
-            //solverForm.ShowDialog();
+            SolverForm solverForm = new SolverForm();
+            solverForm.ShowDialog();
         }
     }
 }

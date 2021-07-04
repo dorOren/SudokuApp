@@ -25,34 +25,16 @@ namespace SudokuUI
             InitializeComponent(BoardSideSize, BoardSideSize, height, width);
         }
 
+        // events
         private void textBox_Click(object sender, EventArgs args)
         {
             TextBox textBox = (TextBox)sender;
             textBox.SelectionStart = textBox.Text.Length;
         }
       
-
         private void board_Load(object sender, EventArgs e)
         {
             startNewGame();
-        }
-
-        private void startNewGame()
-        {
-            GameBoard.SetBoardToStartPosition();
-            for (int i = 0; i < BoardSideSize; i++)
-            {
-                for (int j = 0; j < BoardSideSize; j++)
-                {
-                    if (GameBoard.GameBoard[i, j] != 0)
-                    {
-                        m_TextBoxMatrix[i, j].Text = $"{GameBoard.GameBoard[i, j]}";
-                        m_TextBoxMatrix[i, j].ReadOnly = true;
-                    }
-                    else
-                        m_TextBoxMatrix[i, j].Text = "";
-                }
-            }
         }
 
         private void textBox_TextChanged(object sender, EventArgs args)
@@ -60,16 +42,14 @@ namespace SudokuUI
             TextBox textBox = (TextBox)sender;
             if (textBox.Text.Length <= 1) //if only 1 digit entered
             {
-                int colNum;
-                int rowNum;
-                (rowNum, colNum) = tagToIndexesHashFunction((int)(textBox.Tag));
+                (int rowNum, int colNum) = tagToIndexesHashFunction((int)(textBox.Tag));
                 bool isNumber = int.TryParse(textBox.Text, out int res);
                 if (isNumber && res != 0)
                 {
                     Game.MarkCell(rowNum, colNum, res);
                     textBox.Text = textBox.Text.Insert(0, " ");
                     if (Game.HasWon())
-                        winForm();
+                        winningForm();
                 }
                 else
                 {
@@ -105,6 +85,45 @@ namespace SudokuUI
                 textBox_DeleteText(textBox, keyPressed);
         }
 
+        // program flow
+
+        private void startNewGame()
+        {
+            GameBoard.SetBoardToStartPosition();
+
+            foreach(TextBox textBox in m_TextBoxMatrix)
+            {
+                (int rowNum, int colNum) = tagToIndexesHashFunction((int)textBox.Tag);
+                if (GameBoard.GameBoard[rowNum, colNum] != 0)
+                {
+                    textBox.ForeColor = System.Drawing.Color.Black;
+                    textBox.Text = $"{GameBoard.GameBoard[rowNum, colNum]}";
+                    textBox.ReadOnly = true;
+                }
+                else
+                    m_TextBoxMatrix[rowNum, colNum].Text = "";
+            }
+        }
+
+        private void winningForm()
+        {
+            DialogResult result;
+            string msg = $"You have successfully solved the Sudoku Puzzle!{Environment.NewLine}Would you like to play another round?";
+            string caption = $"Solved!";
+            result = MessageBox.Show(msg, caption, MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                enableAllTextBoxes();
+                startNewGame();
+            }
+            else
+            {
+                Application.Exit();
+            }
+        }
+
+        // others
+
         private void textBox_DeleteText(TextBox i_TextBox, KeyEventArgs i_KeyPressed)
         {
             if (i_TextBox.Text != "")
@@ -122,23 +141,6 @@ namespace SudokuUI
             int colNum = i_Tag % GameBoard.BoardSideSize;
             int rowNum = i_Tag / GameBoard.BoardSideSize;
             return (rowNum, colNum);
-        }
-
-        private void winForm()
-        {
-            DialogResult result;
-            string msg = $"You have successfully solved the Sudoku Puzzle!{Environment.NewLine}Would you like to play another round?";
-            string caption = $"Solved!";
-            result = MessageBox.Show(msg, caption, MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
-            {
-                enableAllTextBoxes();
-                startNewGame();
-            }
-            else
-            {
-                Application.Exit();
-            }
         }
 
         private void enableAllTextBoxes()
