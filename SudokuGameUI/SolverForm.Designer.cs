@@ -23,7 +23,7 @@ namespace SudokuUI
             // SolveButton
             // 
             this.SolveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.SolveButton.Location = new System.Drawing.Point(i_Width-155, i_Height/2-70);
+            this.SolveButton.Location = new System.Drawing.Point(i_Width - 163, i_Height / 2 - 91);
             this.SolveButton.Name = "SudokuSolverButton";
             this.SolveButton.MinimumSize = new System.Drawing.Size(130, 130);
             this.SolveButton.MaximumSize = new System.Drawing.Size(130, 130);
@@ -41,11 +41,16 @@ namespace SudokuUI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(i_Width, i_Height);
+            this.MaximumSize = new System.Drawing.Size(i_Width, i_Height);
+            this.MinimumSize = new System.Drawing.Size(i_Width, i_Height);
             this.Name = "SolverForm";
             this.Text = "Sudoku Solver";
+            this.MaximizeBox = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.ResumeLayout(false);
             this.Load += new System.EventHandler(this.board_Load);
             generateTextBoxMatrix(i_NumRows, i_NumCols, i_Height, i_Width);
+
         }
 
         private void generateTextBoxMatrix(int i_NumRows, int i_NumCols, int i_Height, int i_Width)
@@ -57,11 +62,11 @@ namespace SudokuUI
                 for (int j = 0; j < i_NumCols; j++)
                 {
                     if (((i == 2) || (i == 5)) &&
-                          i != 0 && j == 0)
+                          i != 0  &&  j == 0)
                         generateHorizontalSeperator(i, j, i_Width);
 
                     if (((j == 3) || (j == 6)) &&
-                          j != 0 && i == 0)
+                          j != 0  &&  i == 0)
                         generateVerticalSeperator(i, j, i_Height);
 
                     m_TextBoxMatrix[i, j] = new TextBox();
@@ -105,13 +110,13 @@ namespace SudokuUI
             Label verticalSeperator = new Label();
             verticalSeperator.Text = "";
             verticalSeperator.BackColor = System.Drawing.Color.DimGray;
-            verticalSeperator.Size = new System.Drawing.Size(1, i_Height - 32);
+            verticalSeperator.Size = new System.Drawing.Size(1, i_Height - 72);
             verticalSeperator.Location = new System.Drawing.Point(i_NumCols * 42 + 10 + 41, i_NumRows * 42 + 10);
             this.Controls.Add(verticalSeperator);
             Label verticalSeperator2 = new Label();
             verticalSeperator2.Text = "";
             verticalSeperator2.BackColor = System.Drawing.Color.DimGray;
-            verticalSeperator2.Size = new System.Drawing.Size(1, i_Height - 32);
+            verticalSeperator2.Size = new System.Drawing.Size(1, i_Height - 72);
             verticalSeperator2.Location = new System.Drawing.Point(i_NumCols * 42 + 10 + 38, i_NumRows * 42 + 10);
             this.Controls.Add(verticalSeperator2);
         }

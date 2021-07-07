@@ -16,7 +16,7 @@ namespace SudokuUI
 
         public GameManager()
         {
-            Game = new GameLogic();
+            Game = new GameLogic(9);
             State = eAppState.Setting;
         }
 

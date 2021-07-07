@@ -10,14 +10,9 @@ namespace SudokuLogic
     {
         public Board GameBoard { get; }
 
-        public GameLogic()
+        public GameLogic(int i_BoardSideSize)
         {
-            GameBoard = new Board();
-        }
-
-        public void StartGame()
-        {
-            GameBoard.SetBoardToStartPosition();
+            GameBoard = new Board(i_BoardSideSize);
         }
 
         public void MarkCell(int i_RowNum, int i_ColNum, int i_Value)
@@ -32,7 +27,24 @@ namespace SudokuLogic
             DeleteCollisions(i_RowNum, i_ColNum, i_DeletedValue);
         }
 
+        public bool HasWon()
+        {
+            if (GameBoard.EmptyCells == 0 && GameBoard.CollisionCases == 0)
+                return true;
+            else return false;
+        }
+
         // Collision System Handling
+
+        public bool IsThereCollisions(int i_RowNum, int i_ColNum, int i_Value)
+        {
+            // Check collision of given cell in board with its neighbors from the same row/column/block
+            // Function returs true if any collision was found, else returns false
+            int blockSideSize = GameBoard.BlockSideSize;
+            return  RowCollisions(i_RowNum, i_ColNum, i_Value, eCollisionAction.None) ||
+                    ColCollisions(i_RowNum, i_ColNum, i_Value, eCollisionAction.None) ||
+                    BlockCollisions(i_RowNum - i_RowNum % blockSideSize, i_ColNum - i_ColNum % blockSideSize, i_RowNum, i_ColNum, i_Value, eCollisionAction.None);
+        }
 
         public bool AddCollisions(int i_RowNum, int i_ColNum, int i_Value)
         {
@@ -72,7 +84,7 @@ namespace SudokuLogic
                         GameBoard.CollisionBoard[i_RowNum, i_ColNum] += 1;
                         GameBoard.CollisionCases += 2;
                     }
-                    else //i_Action.Equals(eCollisionAction.Delete)
+                    else if (i_Action.Equals(eCollisionAction.Delete))
                     {
                         GameBoard.CollisionBoard[i_RowNum, i] -= 1;
                         GameBoard.CollisionCases -= 2;
@@ -97,7 +109,7 @@ namespace SudokuLogic
                         GameBoard.CollisionBoard[i_RowNum, i_ColNum] += 1;
                         GameBoard.CollisionCases += 2;
                     }
-                    else //i_Action.Equals(eCollisionAction.Delete)
+                    else if( i_Action.Equals(eCollisionAction.Delete))
                     {
                         GameBoard.CollisionBoard[i, i_ColNum] -= 1;
                         GameBoard.CollisionCases -= 2;
@@ -126,7 +138,7 @@ namespace SudokuLogic
                             GameBoard.CollisionBoard[i_RowNum, i_ColNum] += 1;
                             GameBoard.CollisionCases += 2;
                         }
-                        else //i_Action.Equals(eCollisionAction.Delete)
+                        else if (i_Action.Equals(eCollisionAction.Delete))
                         {
                             GameBoard.CollisionBoard[i_RowStart + i, i_ColStart + j] -= 1;
                             GameBoard.CollisionCases -= 2;
@@ -135,45 +147,12 @@ namespace SudokuLogic
                     }
                 }
             }
-            return collisions;
-        }
-
-        public bool solve()
-        {
-            for (int i = 0; i < GameBoard.BoardSideSize; i++)
-            {
-                for (int j = 0; j < GameBoard.BoardSideSize; j++)
-                {
-                    if (GameBoard.GameBoard[i, j] == 0)
-                    {
-                        for (int val = 1; val <= 9; val++)
-                        {
-                            if (!AddCollisions(i, j, val))
-                            {
-                                GameBoard.GameBoard[i, j] = val;
-
-                                if (solve())
-                                    return true;
-                                else
-                                    GameBoard.GameBoard[i, j] = 0;
-                            }
-                        }
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        public bool HasWon()
-        {
-            if (GameBoard.EmptyCells == 0 && GameBoard.CollisionCases == 0)
-                return true;
-            else return false;
+                return collisions;
         }
 
         private enum eCollisionAction
         {
+            None,
             Add,
             Delete
         }

@@ -62,10 +62,14 @@ namespace SudokuUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(436, 294);
+            this.ClientSize = new System.Drawing.Size(450, 294);
+            this.MaximumSize = new System.Drawing.Size(450, 294);
+            this.MinimumSize = new System.Drawing.Size(450, 294);
             this.Controls.Add(this.SudokuSolverButton);
             this.Controls.Add(this.GenerateGameButton);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Name = "GameSettings";
             this.Text = "Sudoku Madness";
             this.ResumeLayout(false);

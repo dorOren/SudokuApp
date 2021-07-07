@@ -7,6 +7,8 @@ namespace SudokuUI
     public partial class GameForm : Form
     {
         public GameLogic Game { get; }
+
+        public SudokuGenerator Generator { get; }
         public Board GameBoard { get; }
         public int BoardSideSize { get; }
 
@@ -17,11 +19,12 @@ namespace SudokuUI
 
         public GameForm()
         {
-            Game = new GameLogic();
-            GameBoard = Game.GameBoard;
             BoardSideSize = 9;
-            int height = BoardSideSize * 42 + 30;
-            int width = BoardSideSize * 42 + 100;
+            Game = new GameLogic(BoardSideSize);
+            GameBoard = Game.GameBoard;
+            Generator = new SudokuGenerator(9);
+            int height = BoardSideSize * 42 + 70;
+            int width = BoardSideSize * 42 + 120;
             InitializeComponent(BoardSideSize, BoardSideSize, height, width);
         }
 
@@ -89,7 +92,7 @@ namespace SudokuUI
 
         private void startNewGame()
         {
-            GameBoard.SetBoardToStartPosition();
+            GameBoard.GameBoard = Generator.GenerateRandomBoard();
 
             foreach(TextBox textBox in m_TextBoxMatrix)
             {

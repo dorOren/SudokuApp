@@ -6,6 +6,7 @@ namespace SudokuUI
 {
     public partial class SolverForm : Form
     {
+        public SudokuSolver Solver { get; }
         public GameLogic Game { get; }
         public Board GameBoard { get; }
         public int BoardSideSize { get; }
@@ -18,11 +19,12 @@ namespace SudokuUI
 
         public SolverForm()
         {
-            Game = new GameLogic();
+            Solver = new SudokuSolver(9);
+            Game = Solver.Game;
             GameBoard = Game.GameBoard;
-            BoardSideSize = 9;
+            BoardSideSize = Game.GameBoard.BoardSideSize;
             m_Solved = false;
-            int height = BoardSideSize * 42 + 30;
+            int height = BoardSideSize * 42 + 70;
             int width = BoardSideSize * 42 + 230;
             InitializeComponent(BoardSideSize, BoardSideSize, height, width);
         }
@@ -50,7 +52,7 @@ namespace SudokuUI
         {
             Button button = (Button)sender;
             button.Text = $"{Environment.NewLine}Back to menu?";
-            if (!m_Solved && Game.solve())
+            if (!m_Solved && Solver.solve())
             {
                 m_Solved = true;
                 showSolvedBoard();
@@ -131,32 +133,6 @@ namespace SudokuUI
         // may delete
 
         //
-        private bool solve(int[,] i_Board)
-        {
-            for (int i = 0; i < i_Board.GetLength(0); i++)
-            {
-                for (int j = 0; j < i_Board.GetLength(1); j++)
-                {
-                    if (i_Board[i, j] == 0)
-                    {
-                        for (int val = 1; val <= 9; val++)
-                        {
-                            if (isValid(i_Board, i, j, val))
-                            {
-                                i_Board[i, j] = val;
-
-                                if (solve(i_Board))
-                                    return true;
-                                else
-                                    i_Board[i, j] = 0;
-                            }
-                        }
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
 
         private bool isValid(int[,] i_Board, int i_RowNum, int i_ColNum, int i_Val)
         {

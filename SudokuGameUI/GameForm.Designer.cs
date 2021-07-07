@@ -26,8 +26,12 @@ namespace SudokuUI
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(i_Width, i_Height);
+            this.MaximumSize = new System.Drawing.Size(i_Width, i_Height);
+            this.MinimumSize = new System.Drawing.Size(i_Width, i_Height);
             this.Name = "GameForm";
             this.Text = "Sudoku";
+            this.MaximizeBox = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.ResumeLayout(false);
             this.Load += new System.EventHandler(this.board_Load);
             generateTextBoxMatrix(i_NumRows, i_NumCols, i_Height, i_Width);
@@ -75,13 +79,13 @@ namespace SudokuUI
             Label horizontalSeperator = new Label();
             horizontalSeperator.Text = "";
             horizontalSeperator.BackColor = System.Drawing.Color.DimGray;
-            horizontalSeperator.Size = new System.Drawing.Size(i_Width - 102, 1);
+            horizontalSeperator.Size = new System.Drawing.Size(i_Width - 122, 1);
             horizontalSeperator.Location = new System.Drawing.Point(i_NumCols * 42 + 10 + 40, i_NumRows * 42 + 51);
             this.Controls.Add(horizontalSeperator);
             Label horizontalSeperator2 = new Label();
             horizontalSeperator2.Text = "";
             horizontalSeperator2.BackColor = System.Drawing.Color.DimGray;
-            horizontalSeperator2.Size = new System.Drawing.Size(i_Width - 102, 1);
+            horizontalSeperator2.Size = new System.Drawing.Size(i_Width - 122, 1);
             horizontalSeperator2.Location = new System.Drawing.Point(i_NumCols * 42 + 10 + 40, i_NumRows * 42 + 48);
             this.Controls.Add(horizontalSeperator2);
         }
@@ -91,13 +95,13 @@ namespace SudokuUI
             Label verticalSeperator = new Label();
             verticalSeperator.Text = "";
             verticalSeperator.BackColor = System.Drawing.Color.DimGray;
-            verticalSeperator.Size = new System.Drawing.Size(1, i_Height - 32);
+            verticalSeperator.Size = new System.Drawing.Size(1, i_Height - 72);
             verticalSeperator.Location = new System.Drawing.Point(i_NumCols * 42 + 10 + 41, i_NumRows * 42 + 10);
             this.Controls.Add(verticalSeperator);
             Label verticalSeperator2 = new Label();
             verticalSeperator2.Text = "";
             verticalSeperator2.BackColor = System.Drawing.Color.DimGray;
-            verticalSeperator2.Size = new System.Drawing.Size(1, i_Height - 32);
+            verticalSeperator2.Size = new System.Drawing.Size(1, i_Height - 72);
             verticalSeperator2.Location = new System.Drawing.Point(i_NumCols * 42 + 10 + 38, i_NumRows * 42 + 10);
             this.Controls.Add(verticalSeperator2);
         }

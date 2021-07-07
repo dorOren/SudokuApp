@@ -8,7 +8,7 @@ namespace SudokuLogic
 {
     public class Board
     {
-        public int[,] GameBoard { get; }
+        public int[,] GameBoard { get; set; }
         public int[,] CollisionBoard { get; }
         public DefaultBoards BoardsSets { get; }
         public int BoardSideSize { get; }
@@ -16,13 +16,13 @@ namespace SudokuLogic
         public int EmptyCells { get; set; }
         public int CollisionCases { get; set; }
 
-        public Board()
+        public Board(int i_BoardSideSize)
         {
             BoardsSets = new DefaultBoards();
-            EmptyCells = 81;
             CollisionCases = 0;
-            BoardSideSize = 9;
-            BlockSideSize = 3;
+            BoardSideSize = i_BoardSideSize;
+            BlockSideSize = (int)Math.Sqrt((double)BoardSideSize);
+            EmptyCells = (int)Math.Pow((double)BoardSideSize,2); ;
             GameBoard = new int[BoardSideSize, BoardSideSize];
             CollisionBoard = new int[BoardSideSize, BoardSideSize];
         }
@@ -39,21 +39,6 @@ namespace SudokuLogic
                     GameBoard[i, j] = 0;
                     CollisionBoard[i, j] = 0;
                 }
-            }
-        }
-
-        public void SetBoardToStartPosition()
-        {
-            // Sets all cells to 0 (empty state),
-            // Then takes a random game start set from "memory" -> and initiate starting cells with their values
-            InitializeGameBoard();
-            int randomIndex = BoardsSets.rand.Next(0, BoardsSets.BoardSetting.Count());
-            List<MemoryCell> RandomSet = BoardsSets.BoardSetting[randomIndex];
-            foreach(MemoryCell cell in RandomSet)
-            {
-                int RowIndex = cell.RowIndex;
-                int ColIndex = cell.colIndex;
-                MarkCell(RowIndex, ColIndex, cell.Value);
             }
         }
 
