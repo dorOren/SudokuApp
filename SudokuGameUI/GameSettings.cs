@@ -20,11 +20,6 @@ namespace SudokuUI
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void generateGameButton_Click(object sender, EventArgs e)
         {
             State = eAppState.SudokuGame;

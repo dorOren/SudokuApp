@@ -23,18 +23,18 @@ namespace SudokuLogic
             {
                 for (int j = 0; j < GameBoard.BoardSideSize; j++)
                 {
-                    if (GameBoard.GameBoard[i, j] == 0)
+                    if (GameBoard.IsEmpty(i, j))
                     {
                         for (int val = 1; val <= 9; val++)
                         {
                             if (!Game.IsThereCollisions(i, j, val))
                             {
-                                GameBoard.GameBoard[i, j] = val;
+                                GameBoard.MarkCell(i, j, val);
 
                                 if (solve())
                                     return true;
                                 else
-                                    GameBoard.GameBoard[i, j] = 0;
+                                    GameBoard.ClearCell(i, j);
                             }
                         }
                         return false;

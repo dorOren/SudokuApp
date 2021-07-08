@@ -36,13 +36,19 @@ namespace SudokuUI
         public void ShowGameForm()
         {
             GameForm gameForm = new GameForm();
-            gameForm.ShowDialog();
+            DialogResult res= gameForm.ShowDialog();
+            if (res.Equals(DialogResult.Retry))
+            {
+                ShowSettingsForm();
+            }
         }
 
         public void ShowSolverForm()
         {
             SolverForm solverForm = new SolverForm();
-            solverForm.ShowDialog();
+            DialogResult res = solverForm.ShowDialog();
+            if (res.Equals(DialogResult.Retry))
+                ShowSettingsForm();
         }
     }
 }

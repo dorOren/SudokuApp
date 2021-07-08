@@ -52,6 +52,11 @@ namespace SudokuUI
         {
             Button button = (Button)sender;
             button.Text = $"{Environment.NewLine}Back to menu?";
+            if (!isBoardValid())
+            {
+                m_Solved = true;
+                errorForm();
+            }
             if (!m_Solved && Solver.solve())
             {
                 m_Solved = true;
@@ -59,9 +64,33 @@ namespace SudokuUI
             }
             else if (m_Solved)
             {
-                this.DialogResult = DialogResult.OK;
+                this.DialogResult = DialogResult.Retry;
                 this.Close();
             }
+        }
+
+        private bool isBoardValid()
+        {
+            foreach(TextBox textBox in m_TextBoxMatrix)
+            {
+                if (textBox.Text != "")
+                {
+                    (int rowNum, int colNum) = tagToIndexesHashFunction((int)textBox.Tag);
+                    if (Game.IsThereCollisions(rowNum, colNum, int.Parse(textBox.Text.Remove(0, 1))))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private void errorForm()
+        {
+            DialogResult result;
+            string msg = "This Sudoku board is unsolvable!";
+            string caption = $"ERROR!";
+            result = MessageBox.Show(msg, caption, MessageBoxButtons.OK);
         }
 
         private void showSolvedBoard()
@@ -126,30 +155,6 @@ namespace SudokuUI
                     m_DeletedValue = int.Parse(i_TextBox.Text.Remove(0, 1));
                 }
             }
-        }
-
-        //
-
-        // may delete
-
-        //
-
-        private bool isValid(int[,] i_Board, int i_RowNum, int i_ColNum, int i_Val)
-        {
-            for (int i = 0; i < 9; i++)
-            {
-                    //check row  
-                if (i_Board[i, i_ColNum] != 0 && i_Board[i, i_ColNum] == i_Val)
-                    return false;
-                    //check column  
-                if (i_Board[i_RowNum, i] != 0 && i_Board[i_RowNum, i] == i_Val)
-                    return false;
-                    //check 3*3 block  
-                if (i_Board[3 * (i_RowNum / 3) + i / 3, 3 * (i_ColNum / 3) + i % 3] != 0 &&
-                    i_Board[3 * (i_RowNum / 3) + i / 3, 3 * (i_ColNum / 3) + i % 3] == i_Val)
-                    return false;
-            }
-            return true;
         }
     }
 }

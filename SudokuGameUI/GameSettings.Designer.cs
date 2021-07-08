@@ -32,7 +32,6 @@ namespace SudokuUI
             this.label1.Size = new System.Drawing.Size(385, 39);
             this.label1.TabIndex = 0;
             this.label1.Text = "Sudoku Game / Solver";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // GenerateGameButton
             // 

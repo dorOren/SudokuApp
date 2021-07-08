@@ -25,7 +25,7 @@ namespace SudokuLogic
             BlockSideSize = (int)Math.Sqrt((double)BoardSideSize);
         }
 
-        public int[,] GenerateRandomBoard()
+        public void GenerateRandomBoard()
         {
             // Fill 3 blocks of the main diagonal with valid values in random order
             // Then fill all cells in the Sudoku board (=solve the game)
@@ -41,7 +41,7 @@ namespace SudokuLogic
                     {
                         randomVal = rand.Next(1, BoardSideSize + 1);
                     }
-                    GameBoard.GameBoard[tempRow, tempCol] = randomVal;
+                    GameBoard.MarkCell(tempRow,tempCol,randomVal);
                 }
             }
 
@@ -57,16 +57,13 @@ namespace SudokuLogic
                         randomColIndex = rand.Next(0, BoardSideSize);
                         randomRowIndex = rand.Next(0, BoardSideSize);
                     }
-                    GameBoard.GameBoard[randomRowIndex, randomColIndex] = 0;
+                    GameBoard.ClearCell(randomRowIndex, randomColIndex);
                 }
             }
             else
             {
                 //ERROR
             }
-
-
-            return GameBoard.GameBoard;
         }
     }
 }

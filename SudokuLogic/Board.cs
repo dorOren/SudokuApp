@@ -10,7 +10,6 @@ namespace SudokuLogic
     {
         public int[,] GameBoard { get; set; }
         public int[,] CollisionBoard { get; }
-        public DefaultBoards BoardsSets { get; }
         public int BoardSideSize { get; }
         public int BlockSideSize { get; }
         public int EmptyCells { get; set; }
@@ -18,7 +17,6 @@ namespace SudokuLogic
 
         public Board(int i_BoardSideSize)
         {
-            BoardsSets = new DefaultBoards();
             CollisionCases = 0;
             BoardSideSize = i_BoardSideSize;
             BlockSideSize = (int)Math.Sqrt((double)BoardSideSize);
